@@ -1,17 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
   <head>
-    <title>Умный поиск%></title>
-    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <!-- Необходимые 3 Мета-теги всегда д.б. на первом месте -->  
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Bootstrap CSS -->  
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Custom styles for this template -->
+    <link href="/assets/stylesheets/custom.css.scss" rel="stylesheet">
+
+    <%#= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <%#= javascript_include_tag "application", "data-turbolinks-track" => true %>
     <%= csrf_meta_tags %>
+
+    <title>Умный поиск></title>
     <%= render 'layouts/shim' %>
   </head>
   <body>
-    <%= render 'layouts/header' %>
     <div class="container">
+    <%= render 'layouts/header' %>
+
+    <!-- Текст в центре экрана с заголовком  -->
       <%= yield %>
-      <%= render 'layouts/footer' %>
-    </div>
+    <!-- КОНЕЦ Текст в центре экрана с заголовком  -->
+      <%#= render 'layouts/footer' %>
+    </div> <!-- /container -->
+    <!-- jQuery первый, затем Tether, затем Bootstrap JS. -->  
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   </body>
 </html>
