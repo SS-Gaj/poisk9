@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Tp site:</strong>
+  <%= @tape.tp_site %>
+</p>
+
+<p>
+  <strong>Tp date:</strong>
+  <%= @tape.tp_date %>
+</p>
+
+<p>
+  <strong>Tp article:</strong>
+  <%= @tape.tp_article %>
+</p>
+
+<p>
+  <strong>Tp url:</strong>
+  <%= @tape.tp_url %>
+</p>
+
+<p>
+  <strong>Tp status:</strong>
+  <%= @tape.tp_status %>
+</p>
+
+<p>
+  <strong>Tp tag:</strong>
+  <%= @tape.tp_tag %>
+</p>
+
+<p>
+  <strong>Tp comments:</strong>
+  <%= @tape.tp_comments %>
+</p>
+
+<%= link_to 'Edit', edit_tape_path(@tape) %> |
+<%= link_to 'Back', tapes_path %>

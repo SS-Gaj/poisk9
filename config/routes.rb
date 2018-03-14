@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :tapes
+  resources :bands
 #  get 'static_pages/home'
 	root 'static_pages#home'
   match '/sets',    to: 'static_pages#sets',    via: 'get'

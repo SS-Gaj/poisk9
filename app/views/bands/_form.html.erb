@@ -1,0 +1,41 @@
+<%= form_for(@band) do |f| %>
+  <% if @band.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@band.errors.count, "error") %> prohibited this band from being saved:</h2>
+
+      <ul>
+      <% @band.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :bn_head %><br>
+    <%= f.text_field :bn_head %>
+  </div>
+  <div class="field">
+    <%= f.label :bn_url %><br>
+    <%= f.text_field :bn_url %>
+  </div>
+  <div class="field">
+    <%= f.label :bn_anonce %><br>
+    <%= f.text_field :bn_anonce %>
+  </div>
+  <div class="field">
+    <%= f.label :bn_tema %><br>
+    <%= f.text_field :bn_tema %>
+  </div>
+  <div class="field">
+    <%= f.label :bn_rang %><br>
+    <%= f.number_field :bn_rang %>
+  </div>
+  <div class="field">
+    <%= f.label :bn_coment %><br>
+    <%= f.text_field :bn_coment %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,45 @@
+<%= form_for(@tape) do |f| %>
+  <% if @tape.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@tape.errors.count, "error") %> prohibited this tape from being saved:</h2>
+
+      <ul>
+      <% @tape.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :tp_site %><br>
+    <%= f.number_field :tp_site %>
+  </div>
+  <div class="field">
+    <%= f.label :tp_date %><br>
+    <%= f.datetime_select :tp_date %>
+  </div>
+  <div class="field">
+    <%= f.label :tp_article %><br>
+    <%= f.text_field :tp_article %>
+  </div>
+  <div class="field">
+    <%= f.label :tp_url %><br>
+    <%= f.text_field :tp_url %>
+  </div>
+  <div class="field">
+    <%= f.label :tp_status %><br>
+    <%= f.number_field :tp_status %>
+  </div>
+  <div class="field">
+    <%= f.label :tp_tag %><br>
+    <%= f.text_field :tp_tag %>
+  </div>
+  <div class="field">
+    <%= f.label :tp_comments %><br>
+    <%= f.text_field :tp_comments %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

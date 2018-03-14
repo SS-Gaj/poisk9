@@ -1,0 +1,40 @@
+<h3>Полный список</h3>
+<div class="container">
+  <div class="row">
+      <%#= will_paginate %>
+  </div>
+
+  <div class="row">
+    <div class="col-md-1">Сайт-Статус</div>
+    <div class="col-md-1">Тэг</div>
+    <div class="col-md-5">Статья</div>
+    <div class="col-md-4">Комментарии</div>
+    <div class="col-md-1">Кнопки</div>
+  </div>
+
+  <% @tapes.each do |fact| %>
+    <div class="row">
+      <div class="col-md-1">
+        <%#= fact.tp_site.to_s + "-" + fact.tp_status.to_s + "-" + fact.tp_tag %>
+        <%= fact.tp_site.to_s + "-" + fact.tp_status.to_s %>
+      </div>
+      <div class="col-md-1">
+        <%= fact.tp_tag %>
+      </div>
+      <div class="col-md-5">
+        <%= fact.tp_article %>
+      </div>
+      <div class="col-md-4">
+        <%= fact.tp_comments %>
+      </div>
+      <div class="col-md-1">
+        <%#= link_to 'Show', tape %>
+        <%= link_to 'Edit', edit_tape_path(fact) %>
+        <%#= link_to 'Destroy', fact, method: :delete, data: { confirm: 'Are you sure?' } %>
+      </div>
+    </div>  <!--row-->
+  <%end%>
+  <div class="row">
+    <%#= will_paginate %>
+  </div>
+</div>  <!--container-->
