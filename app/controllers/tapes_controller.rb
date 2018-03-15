@@ -20,10 +20,15 @@ class TapesController < ApplicationController
     # для отладки жестко задаю один раздел 
     
     my_url = 'https://www.epravda.com.ua'
-    my_section = '/tags/bitcoin/'
-
-    rss_new(my_url, my_section, my_site)
-
+    my_section = [
+      '/tags/bitcoin/', 
+      '/tags/59a7b3ae95270/', 
+      '/tags/59b0191ec5009/', 
+      '/news/'
+      ]
+    my_section.each do |sec|
+      rss_new(my_url, sec, my_site)
+    end
     redirect_to tapes_path	#tapes#index
    
   end
@@ -90,7 +95,15 @@ class TapesController < ApplicationController
     links_site = page.links_with(text: /(крипто)|(біткоїн)|(фінтех)|(блокчейн)|(Bitcoin)|(платіжн.+систем)/)
 #    links_site = page.links_with(text: /itcoin/)
       links_site.each do |art|
-        tape = Tape.new(tp_site: my_site, tp_status: isx_status, tp_url: my_url + art.href(), tp_article: art.text(), tp_tag:" ")
+        d1 = /20\d\d\/\d\d\/\d+/.match(art.href)
+#Date.parse(a.to_s)        
+        tape = Tape.new(tp_site: my_site, 
+                        tp_status: isx_status, 
+                        tp_url: my_url + art.href(), 
+                        tp_article: art.text(), 
+                        tp_tag:" ", 
+                        tp_date: Date.parse(d1.to_s), 
+                        tp_comments: d1)
         tape.save
 #        byebug
       end # each
