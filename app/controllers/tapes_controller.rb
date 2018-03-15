@@ -24,7 +24,9 @@ class TapesController < ApplicationController
       '/tags/bitcoin/', 
       '/tags/59a7b3ae95270/', 
       '/tags/59b0191ec5009/', 
-      '/news/'
+      '/news/', 
+      '/tags/finansi/', 
+      '/tags/it-tekhnologiji/'
       ]
     my_section.each do |sec|
       rss_new(my_url, sec, my_site)
@@ -89,22 +91,48 @@ class TapesController < ApplicationController
     end
     
     def rss_new(my_url, my_section, my_site)   #serch links site
-    
     page = @agent.get(my_url + my_section)
     isx_status = 0
-    links_site = page.links_with(text: /(крипто)|(біткоїн)|(фінтех)|(блокчейн)|(Bitcoin)|(платіжн.+систем)/)
+    #links_site = page.links_with(text: /(крипто)|(біткоїн)|(фінтех)|(блокчейн)|(Bitcoin)|(платіжн.+систем)/)
 #    links_site = page.links_with(text: /itcoin/)
-      links_site.each do |art|
+    all_links = page.links()
+
+      all_links.each do |art|
+            need_art = false
+            tag_art = " "
+	    if art.text() =~ /(Б|б)іткоїн/
+	      need_art = true
+	      tag_art = 'bitcoin'
+	    elsif art.text() =~ /(B|b)itcoin/
+	      need_art = true
+	      tag_art = 'bitcoin'
+	    elsif art.text() =~ /(К|к)рипто/
+	      need_art = true
+	      tag_art = 'krypto'
+	    elsif art.text() =~ /(Ф|ф)ін(Т|т)ех/
+	      need_art = true
+	      tag_art = 'FinTech'
+	    elsif art.text() =~ /(Б|б)локчейн/
+	      need_art = true
+	      tag_art = 'blockChain'
+	    elsif art.text() =~ /(П|п)латіжн.+систем/
+	      need_art = true
+	      tag_art = 'PaySys'
+	    else
+	    end   #if art.text() =~ /(Б|біткоїн)/
+
+      if need_art == true      
         d1 = /20\d\d\/\d\d\/\d+/.match(art.href)
-#Date.parse(a.to_s)        
+#        byebug
         tape = Tape.new(tp_site: my_site, 
                         tp_status: isx_status, 
                         tp_url: my_url + art.href(), 
                         tp_article: art.text(), 
-                        tp_tag:" ", 
+                        tp_tag: tag_art, 
                         tp_date: Date.parse(d1.to_s), 
                         tp_comments: d1)
         tape.save
+      end   #if need_art == true      
 #        byebug
       end # each
     end #def rss_new
