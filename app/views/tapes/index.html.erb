@@ -21,10 +21,11 @@
       <div class="col-md-1">
         <%= fact.tp_tag %>
       </div>
-      <div class="col-md-5">
-        <%= fact.tp_article %>
-      </div>
       <div class="col-md-4">
+        <%#= fact.tp_article %>
+     	  <%= link_to fact.tp_article, fact.tp_url %>   
+      </div>
+      <div class="col-md-5">
         <%= fact.tp_comments %>
       </div>
       <div class="col-md-1">
