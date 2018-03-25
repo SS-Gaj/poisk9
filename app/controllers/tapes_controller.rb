@@ -17,8 +17,6 @@ class TapesController < ApplicationController
 #    @tape = Tape.new
     @agent = Mechanize.new
     my_site = 1   # "Економична правда"
-    # для отладки жестко задаю один раздел 
-    
     my_url = 'https://www.epravda.com.ua'
     my_section = [
       '/tags/bitcoin/', 
@@ -31,6 +29,16 @@ class TapesController < ApplicationController
     my_section.each do |sec|
       rss_new(my_url, sec, my_site)
     end
+    # https://www.bloomberg.com/crypto
+    my_site = 2   # "Bloomberg"
+    my_url = 'https://www.bloomberg.com'
+    my_section = [
+      '/crypto'
+      ]
+    my_section.each do |sec|
+      rss_new(my_url, sec, my_site)
+    end
+
     redirect_to tapes_path	#tapes#index
    
   end
@@ -98,42 +106,74 @@ class TapesController < ApplicationController
     all_links = page.links()
 
       all_links.each do |art|
-            need_art = false
-            tag_art = " "
-	    if art.text() =~ /(Б|б)іткоїн/
-	      need_art = true
-	      tag_art = 'bitcoin'
-	    elsif art.text() =~ /(B|b)itcoin/
-	      need_art = true
-	      tag_art = 'bitcoin'
-	    elsif art.text() =~ /(К|к)рипто/
-	      need_art = true
-	      tag_art = 'krypto'
-	    elsif art.text() =~ /(Ф|ф)ін(Т|т)ех/
-	      need_art = true
-	      tag_art = 'FinTech'
-	    elsif art.text() =~ /(Б|б)локчейн/
-	      need_art = true
-	      tag_art = 'blockChain'
-	    elsif art.text() =~ /(П|п)латіжн.+систем/
-	      need_art = true
-	      tag_art = 'PaySys'
-	    else
-	    end   #if art.text() =~ /(Б|біткоїн)/
-
-      if need_art == true      
-        d1 = /20\d\d\/\d\d\/\d+/.match(art.href)
-#        byebug
-        tape = Tape.new(tp_site: my_site, 
-                        tp_status: isx_status, 
-                        tp_url: my_url + art.href(), 
-                        tp_article: art.text(), 
-                        tp_tag: tag_art, 
-                        tp_date: Date.parse(d1.to_s), 
-                        tp_comments: d1)
-        tape.save
-      end   #if need_art == true      
+        need_art = need_tag(art, my_site)
+        
+        if need_art == true
+          if my_site == 1 
+            d1 = /20\d\d\/\d\d\/\d+/.match(art.href)
+            date_tape = Date.parse(d1.to_s)
+            url_tape = my_url + art.href()
+          elsif my_site == 2
+            d1 = /20\d\d-\d\d-\d+/.match(art.href)
+#            byebug
+            date_tape = Date.parse(d1.to_s)
+            url_tape = art.href()
+          end        
+  #        byebug
+          tape = Tape.new(tp_site: my_site, 
+                          tp_status: isx_status, 
+                          tp_url: url_tape, 
+                          tp_article: art.text(), 
+                          tp_tag: @tag_art, 
+                          tp_date: date_tape, 
+                          tp_comments: d1.to_s)
+          tape.save
+        end   #if need_art == true      
 #        byebug
       end # each
     end #def rss_new
+    
+    def need_tag(art, my_site)
+      need_art = false
+      @tag_art = " "
+      if my_site == 1 #"Економ.правда"
+	      if art.text() =~ /(Б|б)іткоїн/
+	        need_art = true
+	        @tag_art = 'bitcoin'
+	      elsif art.text() =~ /(B|b)itcoin/
+	        need_art = true
+	        @tag_art = 'bitcoin'
+	      elsif art.text() =~ /(К|к)рипто/
+	        need_art = true
+	        @tag_art = 'krypto'
+	      elsif art.text() =~ /(Ф|ф)ін(Т|т)ех/
+	        need_art = true
+	        @tag_art = 'FinTech'
+	      elsif art.text() =~ /(Б|б)локчейн/
+	        need_art = true
+	        @tag_art = 'blockChain'
+	      elsif art.text() =~ /(П|п)латіжн.+систем/
+	        need_art = true
+	        @tag_art = 'PaySys'
+	      else
+	      end   #if art.text() =~ /(Б|біткоїн)/
+	    elsif my_site == 2  # Bloomberg
+	      if art.href() =~ /articles/
+          need_art = true
+	        if art.href() =~ /bitcoin/
+	          @tag_art = 'bitcoin'
+	        elsif art.href() =~ /crypto/
+	          @tag_art = 'krypto'
+	        elsif art.href() =~ /fintech/
+	          @tag_art = 'FinTech'
+	        elsif art.href() =~ /blockchain/
+	          @tag_art = 'blockChain'
+	        else
+	        end   #if art.href() =~ /bitcoin/
+	      else
+	        need_art = false
+	      end #art.href() =~ /articles/
+	    end   # my_site == 2  # Bloomberg
+	    return need_art
+    end
 end
