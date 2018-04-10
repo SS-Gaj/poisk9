@@ -1,4 +1,4 @@
-class TapesController < ApplicationController
+c1lass TapesController < ApplicationController
   before_action :set_tape, only: [:show, :edit, :update, :destroy]
 
   # GET /tapes
@@ -115,7 +115,7 @@ class TapesController < ApplicationController
     #links_site = page.links_with(text: /(крипто)|(біткоїн)|(фінтех)|(блокчейн)|(Bitcoin)|(платіжн.+систем)/)
 #    links_site = page.links_with(text: /itcoin/)
     all_links = page.links()
-# byebug
+
       all_links.each do |art|
         need_art = need_tag(art, my_site)
         
