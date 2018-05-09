@@ -56,6 +56,8 @@ class TapesController < ApplicationController
 
   # GET /tapes/1/edit
   def edit
+    #render :edit
+    #redirect_to tapes_path	#
   end
 
   # POST /tapes
@@ -253,10 +255,17 @@ class TapesController < ApplicationController
     def date_rus(d2)
       if d2 =~ /Сегодня/
         d2.gsub!(/Сегодня/, Date.today.to_s)
+      elsif d2 =~ /Вчера/
+        yestoday = Date.today - 86400
+        d2.gsub!(/Вчера/, yestoday.to_s)
       elsif d2 =~ /(М|м)арта/
         d2.gsub!(/(М|м)арта/, 'MAR')
       elsif d2 =~ /(А|а)преля/
         d2.gsub!(/(А|а)преля/, 'APR')
+      elsif d2 =~ /(М|м)ая/
+        d2.gsub!(/(М|м)ая/, 'MAY')
+      elsif d2 =~ /(И|и)юня/
+        d2.gsub!(/(И|и)юня/, 'JUN')
       end  # if d2 =~ /Сегодня/
       return d2
     end #    def date_rus(d2)
